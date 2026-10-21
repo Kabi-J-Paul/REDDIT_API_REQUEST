@@ -27,8 +27,8 @@ def main():
 
     about = get_json(base, "/about.json")["data"]
     rules = get_json(base, "/about/rules.json")["rules"]
-    posts = get_json(base, "/top.json", limit=10, t="all")["data"]["children"]
-    posts = sorted(posts, key=lambda post: post["data"].get("score", 0), reverse=True)
+    posts = get_json(base, "/new.json", limit=10)["data"]["children"]
+    posts = sorted(posts, key=lambda post: post["data"].get("created_utc", 0), reverse=True)
 
     print(f"Subreddit:   {about.get('display_name_prefixed', 'r/' + subreddit)}")
     print(f"Subscribers: {about.get('subscribers', 0):,}")
@@ -36,7 +36,7 @@ def main():
     print("\nRules:")
     for number, rule in enumerate(rules, 1):
         print(f"{number}. {rule.get('short_name', 'Rule')}")
-    print("\nTop 10 posts by upvotes:")
+    print("\n10 newest posts:")
     for number, post in enumerate(posts[:10], 1):
         data = post["data"]
         print(
